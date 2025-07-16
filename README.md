@@ -1,0 +1,2 @@
+# Building a CPU From Scratch
+This is my personal implementation of the CPU in the fabulous online course From NAND to Tetris. Instead of using the hardware simulator and HDL provided by the professors, I decide to use Verilog and Vivado to implement my designs. And finally I plan to run the CPU on a Zynq 7000 evaluation board (only using the FPGA). I will record the difficulties and problems along the way, hoping to provide a hand-on tutorial for those who wants to implement a CPU on an actual hardware.
