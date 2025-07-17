@@ -7,8 +7,24 @@ module dmux4way(
     output wire c,
     output wire d
 );
-    assign a = in & ~sel[1] & ~sel[0];
-    assign b = in & ~sel[1] & sel[0];
-    assign c = in & sel[1] & ~sel[0];
-    assign d = in & sel[1] & sel[0];
+    wire layer1_ab, layer1_cd;
+    dmux layer1 (
+        .in(in),
+        .sel(sel[1]),
+        .a(layer1_ab),
+        .b(layer1_cd)
+    );
+    dmux layer2_ab (
+        .in(layer1_ab),
+        .sel(sel[0]),
+        .a(a),
+        .b(b)
+    );
+    dmux layer2_cd (
+        .in(layer1_cd),
+        .sel(sel[0]),
+        .a(c),
+        .b(d)
+    );
+
 endmodule

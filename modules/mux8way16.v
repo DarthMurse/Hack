@@ -11,16 +11,28 @@ module mux8way16(
     input wire [2:0] sel,
     output wire [15:0] out
 );
-    wire [15:0] choose_a, choose_b, choose_c, choose_d, choose_e, choose_f, choose_g, choose_h;
+    wire [15:0] layer2_abcd, layer2_efgh;
 
-    assign choose_a = a & {16{~sel[2] & ~sel[1] & ~sel[0]}};
-    assign choose_b = b & {16{~sel[2] & ~sel[1] & sel[0]}};
-    assign choose_c = c & {16{~sel[2] & sel[1] & ~sel[0]}};
-    assign choose_d = d & {16{~sel[2] & sel[1] & sel[0]}};
-    assign choose_e = e & {16{sel[2] & ~sel[1] & ~sel[0]}};
-    assign choose_f = f & {16{sel[2] & ~sel[1] & sel[0]}};
-    assign choose_g = g & {16{sel[2] & sel[1] & ~sel[0]}};
-    assign choose_h = h & {16{sel[2] & sel[1] & sel[0]}};
-
-    assign out = choose_a | choose_b | choose_c | choose_d | choose_e | choose_f | choose_g | choose_h;
+    mux4way16 mux_abcd (
+        .a(a),
+        .b(b),
+        .c(c),
+        .d(d),
+        .sel(sel[1:0]),
+        .out(layer2_abcd)
+    );
+    mux4way16 mux_efgh (
+        .a(e),
+        .b(f),
+        .c(g),
+        .d(h),
+        .sel(sel[1:0]),
+        .out(layer2_efgh)
+    );
+    mux16 mux_final (
+        .a(layer2_abcd),
+        .b(layer2_efgh),
+        .sel(sel[2]),
+        .out(out)
+    );
 endmodule

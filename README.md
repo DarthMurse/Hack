@@ -1,2 +1,5 @@
 # Building a CPU From Scratch
 This is my personal implementation of the CPU in the fabulous online course From NAND to Tetris. Instead of using the hardware simulator and HDL provided by the professors, I decide to use Verilog and Vivado to implement my designs. And finally I plan to run the CPU on a Zynq 7000 evaluation board (only using the FPGA). I will record the difficulties and problems along the way, hoping to provide a hand-on tutorial for those who wants to implement a CPU on an actual hardware.
+
+## Basic Setup
+I put the code of the modules in the `modules` folder and the code for the testbench in the `testbench` folder. Then I add them to design sources and simulation sources in Vivado respectively. Because I think writing testbench is tedious and not the main focus of this project, I just throw the interface of the modules to the AI and let it generate the testbench for me. It turns out that this method works very well and I can spend most of my time on debugging the modules rather than writing testbench. (For the main modules, I don't use the AI since I'm learning to write the code by myself)

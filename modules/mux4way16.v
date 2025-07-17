@@ -7,10 +7,23 @@ module mux4way16(
     input wire [1:0] sel,
     output wire [15:0] out
 );
-    wire [15: 0] choose_a, choose_b, choose_c, choose_d;
-    assign choose_a = a & {16{~sel[1] & ~sel[0]}};
-    assign choose_b = b & {16{~sel[1] & sel[0]}};
-    assign choose_c = c & {16{sel[1] & ~sel[0]}};
-    assign choose_d = d & {16{sel[1] & sel[0]}};
-    assign out = choose_a | choose_b | choose_c | choose_d;
+    wire [15: 0] layer1_ab, layer1_cd;
+    mux16 mux_ab (
+        .a(a),
+        .b(b),
+        .sel(sel[0]),
+        .out(layer1_ab)
+    );
+    mux16 mux_cd (
+        .a(c),
+        .b(d),
+        .sel(sel[0]),
+        .out(layer1_cd)
+    );
+    mux16 mux2 (
+        .a(layer1_ab),
+        .b(layer1_cd),
+        .sel(sel[1]),
+        .out(out)
+    );
 endmodule

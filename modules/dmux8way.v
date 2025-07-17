@@ -11,12 +11,27 @@ module dmux8way(
     output wire g,
     output wire h
 );
-    assign a = in & ~sel[2] & ~sel[1] & ~sel[0];
-    assign b = in & ~sel[2] & ~sel[1] & sel[0];
-    assign c = in & ~sel[2] & sel[1] & ~sel[0];
-    assign d = in & ~sel[2] & sel[1] & sel[0];
-    assign e = in & sel[2] & ~sel[1] & ~sel[0];
-    assign f = in & sel[2] & ~sel[1] & sel[0];
-    assign g = in & sel[2] & sel[1] & ~sel[0];
-    assign h = in & sel[2] & sel[1] & sel[0];
+    wire abcd, efgh;
+    dmux layer1 (
+        .in(in),
+        .sel(sel[2]),
+        .a(abcd),
+        .b(efgh)
+    );
+    dmux4way layer2_abcd (
+        .in(abcd),
+        .sel(sel[1:0]),
+        .a(a),
+        .b(b),
+        .c(c),
+        .d(d)
+    );
+    dmux4way layer2_efgh (
+        .in(efgh),
+        .sel(sel[1:0]),
+        .a(e),
+        .b(f),
+        .c(g),
+        .d(h)
+    );
 endmodule
